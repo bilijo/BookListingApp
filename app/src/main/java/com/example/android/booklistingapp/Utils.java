@@ -122,26 +122,28 @@ public class Utils {
 
     /**
      * Return an {@link Event} object by parsing out information
-     * about the first earthquake from the input earthquakeJSON string.
+     * about the first book from the input bookApiJSON string.
      */
-    private static Event extractFeatureFromJson(String earthquakeJSON) {
+    private static Event extractFeatureFromJson(String bookApiJSON) {
         // If the JSON string is empty or null, then return early.
-        if (TextUtils.isEmpty(earthquakeJSON)) {
+        if (TextUtils.isEmpty(bookApiJSON)) {
             return null;
         }
 
         try {
-            JSONObject baseJsonResponse = new JSONObject(earthquakeJSON);
-            JSONArray featureArray = baseJsonResponse.getJSONArray("features");
+            JSONObject baseJsonResponse = new JSONObject(bookApiJSON);
+            JSONArray itemsArray = baseJsonResponse.getJSONArray("items");
 
             // If there are results in the features array
-            if (featureArray.length() > 0) {
+            if (itemsArray.length() > 0) {
                 // Extract out the first feature (which is an earthquake)
-                JSONObject firstFeature = featureArray.getJSONObject(0);
-                JSONObject properties = firstFeature.getJSONObject("properties");
+                JSONObject firstFeature = itemsArray.getJSONObject(0);
+                JSONObject properties = firstFeature.getJSONObject("volumeInfo");
 
                 // Extract out the title, number of people, and perceived strength values
-                String title = properties.getString("volumeInfo");
+                String title = properties.getString("title");
+                Log.d(LOG_TAG, "Url properties.getString "+title);
+
                 String authorName = properties.getString("authors");
                 String publisher = properties.getString("publisher");
 

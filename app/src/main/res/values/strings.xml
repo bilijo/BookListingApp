@@ -3,4 +3,6 @@
     <string name="book_title">""</string>
     <string name="book_author">""</string>
     <string name="book_publisher">""</string>
+
+    <string name="btn_search">"Find Book Infos"</string>
 </resources>
