@@ -26,7 +26,7 @@ public class Utils {
     public static final String LOG_TAG = Utils.class.getSimpleName();
 
     /**
-     * Query the Books API dataset and return an {@link Event} object to represent a single earthquake.
+     * Query the Books API dataset and return an {@link Event} object to represent a single book data.
      */
     public static Event fetchBookData(String requestUrl) {
         // Create URL object
@@ -136,11 +136,11 @@ public class Utils {
 
             // If there are results in the features array
             if (itemsArray.length() > 0) {
-                // Extract out the first feature (which is an earthquake)
+                // Extract out the first feature (which is a book info)
                 JSONObject firstFeature = itemsArray.getJSONObject(0);
                 JSONObject properties = firstFeature.getJSONObject("volumeInfo");
 
-                // Extract out the title, number of people, and perceived strength values
+                // Extract out the title, author, and publisher  values
                 String title = properties.getString("title");
                 Log.d(LOG_TAG, "Url properties.getString "+title);
 
@@ -151,7 +151,7 @@ public class Utils {
                 return new Event(title, authorName, publisher);
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Problem parsing the earthquake JSON results", e);
+            Log.e(LOG_TAG, "Problem parsing the book JSON results", e);
         }
         return null;
     }

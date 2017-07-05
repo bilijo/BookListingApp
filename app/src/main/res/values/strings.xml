@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">BookListingApp</string>
-    <string name="book_title">""</string>
-    <string name="book_author">""</string>
-    <string name="book_publisher">""</string>
+    <string name="book_title">"the book"</string>
+    <string name="book_author">"the author"</string>
+    <string name="book_publisher">"the publisher"</string>
 
     <string name="btn_search">"Find Book Infos"</string>
 </resources>

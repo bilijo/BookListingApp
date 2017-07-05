@@ -6,10 +6,10 @@ package com.example.android.booklistingapp;
 
 public class Event {
 
-    /** Title of the earthquake event */
+    /** Title of the book event */
     public final String title;
 
-    /** Number of people who felt the earthquake and reported how strong it was */
+    /** Author who wrote the book  */
     public final String authorName;
 
     /** Perceived strength of the earthquake from the people's responses */
@@ -18,10 +18,10 @@ public class Event {
     /**
      * Constructs a new {@link Event}.
      *
-     * @param bookTitle is the title of the earthquake event
-     * @param vAuthorName is the number of people who felt the earthquake and reported how
-     *                         strong it was
-     * @param nameOfPublisher is the perceived strength of the earthquake from the responses
+     * @param bookTitle is the title of the book event
+     * @param vAuthorName is the author of the book
+     *
+     * @param nameOfPublisher is the publisher of the book
      */
     public Event(String bookTitle, String vAuthorName, String nameOfPublisher) {
         title = bookTitle;
