@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/main_layout_margin"
     android:orientation="vertical"
+    android:layout_weight="1"
     tools:context="com.example.android.booklistingapp.MainActivity">
-    
+
   <LinearLayout
         android:id="@+id/linear_layout_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+      android:layout_alignParentBottom="true"
+      android:layout_marginTop="15dp"
         android:layout_weight="1"
         >
 
@@ -36,10 +39,12 @@
     <!-- View for a list of books -->
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/listView_books"
+        android:layout_above="@+id/linear_layout_search"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/linear_layout_search" />
+      />
 
 
 
-</LinearLayout>
+</RelativeLayout>
