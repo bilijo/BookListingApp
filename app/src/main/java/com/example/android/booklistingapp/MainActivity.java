@@ -3,21 +3,22 @@ package com.example.android.booklistingapp;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    final String BOOKS_API_URL = "https://www.googleapis.com/books/v1/volumes?q=android&maxResults=1";
-   /*public String google_books_Api_url = "https://www.googleapis.com/books/v1/volumes?q=";
-    String isbnToFind = "ISBN	2820515193, 9782820515193";
-   String google_books_Api_url2  = google_books_Api_url + isbnToFind; */
+   // final String BOOKS_API_URL = "https://www.googleapis.com/books/v1/volumes?q=android&maxResults=1";
+   public String google_books_Api_url = "https://www.googleapis.com/books/v1/volumes?q=authors%20";
+    String google_books_Api_url2;
+
 
     // Make adapter and listview instances as global variable
     private BooksDataAdapter mAdapter;
@@ -28,13 +29,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("MainActivity", "urlAPI: " + google_books_Api_url2);
 
         //When the button search is pressed, set a click listener to launch the search
         final Button searchButton = (Button) findViewById(R.id.button_search);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                Toast.makeText(MainActivity.this, "searchButton", Toast.LENGTH_LONG).show();
+                EditText editTextView = (EditText) findViewById(R.id.editText_toSearch);
+                String  stringToSearch = String.valueOf(editTextView.getText());
+                stringToSearch = stringToSearch.replace(" ","%20");
+
+                google_books_Api_url2  = google_books_Api_url + stringToSearch;
+
+   Log.d("MainActivity", "google_books_Api_url2: " + stringToSearch);
+
+                // Start the AsyncTask to fetch the book data
+                BookListAsyncTask task = new BookListAsyncTask();
+                task.execute(google_books_Api_url2);
+
 
             }
         });
@@ -49,9 +62,6 @@ public class MainActivity extends AppCompatActivity {
         // so the list can be populated in the user interface
         booksListView.setAdapter(mAdapter);
 
-        // Start the AsyncTask to fetch the book data
-        BookListAsyncTask task = new BookListAsyncTask();
-        task.execute(BOOKS_API_URL);
 
     }
 
@@ -74,8 +84,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(BooksData result) {
-            Log.d("MainActivity", "onPostExecute: " + result);
-            mAdapter.add(result);
+            Log.d("MainActivity", "onPostExecute: " + result.getmBookTitle());
+
+                // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
+        // data set. This will trigger the ListView to update.
+        if (result != null) {
+            mAdapter.addAll(result);
+        }
+            //mAdapter.add(result);
    booksListView.setAdapter(mAdapter);
 
 

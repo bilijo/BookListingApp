@@ -100,6 +100,7 @@ public class Utils {
                 inputStream.close();
             }
         }
+
         return jsonResponse;
     }
 
@@ -118,6 +119,7 @@ public class Utils {
                 line = reader.readLine();
             }
         }
+
         return output.toString();
     }
 
@@ -143,7 +145,7 @@ public class Utils {
 
                 // Extract out the title, author, and publisher  values
                 String title = properties.getString("title");
-                Log.d(LOG_TAG, "Url properties.getString "+title);
+
 
                 String authorName = properties.getString("authors");
                 String publisher = properties.getString("publisher");
