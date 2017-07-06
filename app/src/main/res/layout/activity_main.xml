@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:layout_margin="@dimen/main_layout_margin"
+    android:orientation="vertical"
     tools:context="com.example.android.booklistingapp.MainActivity">
+    
+  <LinearLayout
+        android:id="@+id/linear_layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        >
 
+        <!-- Button to fetch books -->
+        <Button
+            android:id="@+id/button_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/btn_search" />
+         <EditText
+            android:id="@+id/editText_toSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:inputType="text"
+            android:text="David Gemmell" />
+
+
+    </LinearLayout>
     <!-- View for a list of books -->
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/listView_books"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/button_search" />
+        android:layout_toStartOf="@+id/linear_layout_search" />
 
 
-    <EditText
-        android:id="@+id/editText_toSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/button_search"
-        android:inputType="text"
-        android:text="David Gemmell" />
 
-    <!-- Button to fetch books -->
-    <Button
-        android:id="@+id/button_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/btn_search" />
-</RelativeLayout>
+</LinearLayout>
