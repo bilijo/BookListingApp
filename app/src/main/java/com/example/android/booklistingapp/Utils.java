@@ -15,6 +15,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dam on 03.07.2017.
@@ -28,7 +30,7 @@ public class Utils {
     /**
      * Query the Books API dataset and return an {@link BookEvent} object to represent a single book data.
      */
-    public static BooksData fetchBookData(String requestUrl) {
+    public static List<BooksData> fetchBookData(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -41,7 +43,7 @@ public class Utils {
         }
 
         // Extract relevant fields from the JSON response and create an {@link BookEvent} object
-        BooksData book = extractFeatureFromJson(jsonResponse);
+        List<BooksData> book = extractFeatureFromJson(jsonResponse);
 
         // Return the {@link BookEvent}
         Log.d(LOG_TAG, "extractFeatureFromJson"+book);
@@ -127,7 +129,9 @@ public class Utils {
      * Return an {@link BookEvent} object by parsing out information
      * about the first book from the input bookApiJSON string.
      */
-    private static BooksData extractFeatureFromJson(String bookApiJSON) {
+    private static ArrayList<BooksData> extractFeatureFromJson(String bookApiJSON) {
+        ArrayList<BooksData> listOfBooks = new ArrayList<>();
+
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(bookApiJSON)) {
             return null;
@@ -139,24 +143,35 @@ public class Utils {
 
             // If there are results in the features array
             if (itemsArray.length() > 0) {
-                // Extract out the first feature (which is a book info)
-                JSONObject firstFeature = itemsArray.getJSONObject(0);
-                JSONObject properties = firstFeature.getJSONObject("volumeInfo");
+                for (int i = 0; i < itemsArray.length(); i++){
 
-                // Extract out the title, author, and publisher  values
-                String title = properties.getString("title");
+                    // Extract out the first feature (which is a book info)
+                    JSONObject firstFeature = itemsArray.getJSONObject(i);
+                    JSONObject properties = firstFeature.getJSONObject("volumeInfo");
+
+                    // Extract out the title, author, and publisher  values
+                    String title = properties.getString("title");
+
+                    String authorName = properties.getString("authors");
+                    String publisher = properties.getString("publisher");
+
+                    // Create a new {@link BooksData} object
+                    BooksData bookObject = new BooksData(title,authorName,publisher );
+                    listOfBooks.add(bookObject);
+                }
 
 
-                String authorName = properties.getString("authors");
-                String publisher = properties.getString("publisher");
 
-                // Create a new {@link BookEvent} object
-                return new BooksData(title, authorName, publisher);
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing the book JSON results", e);
         }
-        return null;
+       // return null;
+        Log.d(LOG_TAG, "listOfBooks  "+listOfBooks);
+        return listOfBooks;
     }
+
+
+
 
 }
