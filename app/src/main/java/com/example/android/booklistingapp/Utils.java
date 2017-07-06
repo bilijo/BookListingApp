@@ -26,9 +26,9 @@ public class Utils {
     public static final String LOG_TAG = Utils.class.getSimpleName();
 
     /**
-     * Query the Books API dataset and return an {@link Event} object to represent a single book data.
+     * Query the Books API dataset and return an {@link BookEvent} object to represent a single book data.
      */
-    public static Event fetchBookData(String requestUrl) {
+    public static BooksData fetchBookData(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -40,10 +40,11 @@ public class Utils {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
 
-        // Extract relevant fields from the JSON response and create an {@link Event} object
-        Event book = extractFeatureFromJson(jsonResponse);
+        // Extract relevant fields from the JSON response and create an {@link BookEvent} object
+        BooksData book = extractFeatureFromJson(jsonResponse);
 
-        // Return the {@link Event}
+        // Return the {@link BookEvent}
+        Log.d(LOG_TAG, "extractFeatureFromJson"+book);
         return book;
     }
 
@@ -121,10 +122,10 @@ public class Utils {
     }
 
     /**
-     * Return an {@link Event} object by parsing out information
+     * Return an {@link BookEvent} object by parsing out information
      * about the first book from the input bookApiJSON string.
      */
-    private static Event extractFeatureFromJson(String bookApiJSON) {
+    private static BooksData extractFeatureFromJson(String bookApiJSON) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(bookApiJSON)) {
             return null;
@@ -147,8 +148,8 @@ public class Utils {
                 String authorName = properties.getString("authors");
                 String publisher = properties.getString("publisher");
 
-                // Create a new {@link Event} object
-                return new Event(title, authorName, publisher);
+                // Create a new {@link BookEvent} object
+                return new BooksData(title, authorName, publisher);
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing the book JSON results", e);

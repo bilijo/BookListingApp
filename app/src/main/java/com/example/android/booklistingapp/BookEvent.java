@@ -4,7 +4,7 @@ package com.example.android.booklistingapp;
  * Created by dam on 03.07.2017.
  */
 
-public class Event {
+public class BookEvent {
 
     /** Title of the book event */
     public final String title;
@@ -16,14 +16,14 @@ public class Event {
     public final String publisher;
 
     /**
-     * Constructs a new {@link Event}.
+     * Constructs a new {@link BookEvent}.
      *
      * @param bookTitle is the title of the book event
      * @param vAuthorName is the author of the book
      *
      * @param nameOfPublisher is the publisher of the book
      */
-    public Event(String bookTitle, String vAuthorName, String nameOfPublisher) {
+    public BookEvent(String bookTitle, String vAuthorName, String nameOfPublisher) {
         title = bookTitle;
         authorName = vAuthorName;
         publisher = nameOfPublisher;

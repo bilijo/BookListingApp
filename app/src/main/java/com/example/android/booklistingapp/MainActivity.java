@@ -10,10 +10,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     final String BOOKS_API_URL = "https://www.googleapis.com/books/v1/volumes?q=android&maxResults=1";
+   /*public String google_books_Api_url = "https://www.googleapis.com/books/v1/volumes?q=";
+    String isbnToFind = "ISBN	2820515193, 9782820515193";
+   String google_books_Api_url2  = google_books_Api_url + isbnToFind; */
+
+    // Make adapter and listview instances as global variable
+    private BooksDataAdapter mAdapter;
+    private ListView booksListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Find a reference to the {@link ListView} in the layout
-        ListView booksListView = (ListView) findViewById(R.id.listView_books);
+        booksListView = (ListView) findViewById(R.id.listView_books);
 
         // Create a new adapter that takes an empty list of book as input
-        BooksDataAdapter mAdapter = new BooksDataAdapter(this, new ArrayList<BooksData>());
+        mAdapter = new BooksDataAdapter(this, new ArrayList<BooksData>());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
@@ -45,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         BookListAsyncTask task = new BookListAsyncTask();
         task.execute(BOOKS_API_URL);
 
-
     }
 
     /*The three types used by an asynchronous task are the following:
@@ -53,14 +60,26 @@ public class MainActivity extends AppCompatActivity {
       Progress, the type of the progress units published during the background computation.
        Result, the type of the result of the background computation.
     Not all types are always used by an asynchronous task. To mark a type as unused, simply use the type Void: */
-    private class BookListAsyncTask extends AsyncTask<String, Void, Event> {
+
+    private class BookListAsyncTask extends AsyncTask<String, Void, BooksData> {
 
         @Override
-        protected Event doInBackground(String... Urls) {
+        protected BooksData doInBackground(String... Urls) {
             // Perform the HTTP request for book data and process the response.
-            Event result = Utils.fetchBookData(Urls[0]);
-            Log.i("MainActivity", "doInBackground: " + result);
+            BooksData result = Utils.fetchBookData(Urls[0]);
+            Log.d("MainActivity", "doInBackground: " + result);
+
             return result;
+        }
+
+        @Override
+        protected void onPostExecute(BooksData result) {
+            Log.d("MainActivity", "onPostExecute: " + result);
+            mAdapter.add(result);
+   booksListView.setAdapter(mAdapter);
+
+
+
         }
 
     }
