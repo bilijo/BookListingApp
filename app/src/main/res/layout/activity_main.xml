@@ -32,18 +32,27 @@
             android:layout_height="wrap_content"
 
             android:inputType="text"
-            android:text="David Gemmell" />
+            />
 
 
     </LinearLayout>
-    <!-- View for a list of books -->
+    <!-- View for a item list of books -->
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/listView_books"
         android:layout_above="@+id/linear_layout_search"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-      />
+        android:visibility="visible"/>
+
+ <!-- Empty view is only visible when the list has no items. -->
+    <TextView
+        android:id="@+id/text_notfound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/textView_not_found"
+        android:visibility="gone"/>
 
 
 

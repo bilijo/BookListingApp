@@ -5,4 +5,10 @@
     <string name="book_publisher">"the publisher"</string>
 
     <string name="btn_search">"Find Book Infos"</string>
+
+    <!-- Text to display in the list when there are no books according given name-->
+    <string name="textView_not_found">Name not found: try another one\n or check spelling</string>
+
+
+
 </resources>

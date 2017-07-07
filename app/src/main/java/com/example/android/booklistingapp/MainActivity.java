@@ -9,14 +9,24 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.R.attr.id;
+import static android.widget.Toast.LENGTH_SHORT;
+import static com.example.android.booklistingapp.R.id.listView_books;
+
 public class MainActivity extends AppCompatActivity {
 
-    // final String BOOKS_API_URL = "https://www.googleapis.com/books/v1/volumes?q=android&maxResults=1";
+    // url to perform search book by author name
     public String google_books_Api_url = "https://www.googleapis.com/books/v1/volumes?q=authors%20";
     String google_books_Api_url2;
+
+ /** TextView that is displayed when the list is empty */
+  private TextView mEmptyStateTextView;
+
 
 
     // Make adapter and listview instances as global variable
@@ -31,29 +41,39 @@ public class MainActivity extends AppCompatActivity {
         // hide keyboard
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+
+
+
+       final EditText editTextView = (EditText) findViewById(R.id.editText_toSearch);
+
         //When the button search is pressed, set a click listener to launch the search
         final Button searchButton = (Button) findViewById(R.id.button_search);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                EditText editTextView = (EditText) findViewById(R.id.editText_toSearch);
-                String stringToSearch = String.valueOf(editTextView.getText());
-                stringToSearch = stringToSearch.replace(" ", "%20");
+                if(editTextView.getText().toString().isEmpty()) {
+                    // editText is empty
+                    Toast.makeText(MainActivity.this, "editText is empty ", LENGTH_SHORT).show();
 
-                google_books_Api_url2 = google_books_Api_url + stringToSearch;
+                } else {
+                // editText is not empty
 
-                Log.d("MainActivity", "google_books_Api_url2: " + stringToSearch);
+                    String stringToSearch = String.valueOf(editTextView.getText());
+                    stringToSearch = stringToSearch.replace(" ", "%20");
 
-                // Start the AsyncTask to fetch the book data
-                BookListAsyncTask task = new BookListAsyncTask();
-                task.execute(google_books_Api_url2);
+                    google_books_Api_url2 = google_books_Api_url + stringToSearch;
 
+
+                    // Start the AsyncTask to fetch the book data
+                    BookListAsyncTask task = new BookListAsyncTask();
+                    task.execute(google_books_Api_url2);
+            }
 
             }
         });
 
         // Find a reference to the {@link ListView} in the layout
-        booksListView = (ListView) findViewById(R.id.listView_books);
+        booksListView = (ListView) findViewById(listView_books);
 
         // Create a new adapter that takes an empty list of book as input
         mAdapter = new BooksDataAdapter(this, new ArrayList<BooksData>());
@@ -61,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         //booksListView.setAdapter(mAdapter);
-
 
     }
 
@@ -88,19 +107,28 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
             ArrayList<BooksData> result = (ArrayList<BooksData>) Utils.fetchBookData(Urls[0]);
-
+           // mAdapter.notifyDataSetChanged();
             return result;
         }
 
         @Override
         protected void onPostExecute(ArrayList<BooksData> result) {
+            mEmptyStateTextView = (TextView) findViewById(R.id.text_notfound);
             mAdapter.clear();
+
 
             // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
             // data set. This will trigger the ListView to update.
-            if (result != null) {
+            if (result != null && !result.isEmpty()) {
+                mEmptyStateTextView.setVisibility(View.GONE);
                 mAdapter.addAll(result);
+            } else {
+
+
+                mEmptyStateTextView.setVisibility(View.VISIBLE);
+                booksListView.setEmptyView(mEmptyStateTextView);
             }
+
             //mAdapter.add(result);
             booksListView.setAdapter(mAdapter);
 
