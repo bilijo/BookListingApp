@@ -24,11 +24,13 @@ import java.util.List;
 
 public class Utils {
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     public static final String LOG_TAG = Utils.class.getSimpleName();
 
     /**
-     * Query the Books API dataset and return an {@link BookEvent} object to represent a single book data.
+     * Query the Books API dataset and return an {@link BooksData} object to represent a single book data.
      */
     public static List<BooksData> fetchBookData(String requestUrl) {
         // Create URL object
@@ -42,16 +44,15 @@ public class Utils {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
 
-        // Extract relevant fields from the JSON response and create an {@link BookEvent} object
+        // Extract relevant fields from the JSON response and create an {@link BooksData} object
         List<BooksData> book = extractFeatureFromJson(jsonResponse);
 
-        // Return the {@link BookEvent}
-        Log.d(LOG_TAG, "extractFeatureFromJson"+book);
+        // Return the {@link BooksData}
+        Log.d(LOG_TAG, "extractFeatureFromJson" + book);
         return book;
     }
 
-
-    /**
+    /*
      * Returns new URL object from the given string URL.
      */
     private static URL createUrl(String stringUrl) {
@@ -106,7 +107,7 @@ public class Utils {
         return jsonResponse;
     }
 
-    /**
+    /*
      * Convert the {@link InputStream} into a String which contains the
      * whole JSON response from the server.
      */
@@ -121,12 +122,11 @@ public class Utils {
                 line = reader.readLine();
             }
         }
-
         return output.toString();
     }
 
-    /**
-     * Return an {@link BookEvent} object by parsing out information
+    /*
+     * Return an {@link BooksData} object by parsing out information
      * about the first book from the input bookApiJSON string.
      */
     private static ArrayList<BooksData> extractFeatureFromJson(String bookApiJSON) {
@@ -143,7 +143,8 @@ public class Utils {
 
             // If there are results in the features array
             if (itemsArray.length() > 0) {
-                for (int i = 0; i < itemsArray.length(); i++){
+                // Retrieve all items what are needed to be shown
+                for (int i = 0; i < itemsArray.length(); i++) {
 
                     // Extract out the first feature (which is a book info)
                     JSONObject firstFeature = itemsArray.getJSONObject(i);
@@ -156,22 +157,19 @@ public class Utils {
                     String publisher = properties.getString("publisher");
 
                     // Create a new {@link BooksData} object
-                    BooksData bookObject = new BooksData(title,authorName,publisher );
+                    BooksData bookObject = new BooksData(title, authorName, publisher);
                     listOfBooks.add(bookObject);
                 }
-
 
 
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing the book JSON results", e);
         }
-       // return null;
-        Log.d(LOG_TAG, "listOfBooks  "+listOfBooks);
+        // return null;
+        Log.d(LOG_TAG, "listOfBooks  " + listOfBooks);
         return listOfBooks;
     }
-
-
 
 
 }

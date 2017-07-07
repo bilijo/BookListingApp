@@ -14,10 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-      android:layout_alignParentBottom="true"
+      android:layout_alignParentTop="true"
       android:layout_marginTop="15dp"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1" >
 
         <!-- Button to fetch books -->
         <Button
@@ -26,13 +25,13 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/btn_search" />
+
+      <!-- Field to enter author's name as search key -->
          <EditText
             android:id="@+id/editText_toSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:inputType="text"
-            />
+            android:inputType="text"/>
 
 
     </LinearLayout>
@@ -40,7 +39,7 @@
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/listView_books"
         android:layout_above="@+id/linear_layout_search"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"/>

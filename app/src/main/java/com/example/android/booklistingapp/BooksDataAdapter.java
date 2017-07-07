@@ -3,7 +3,6 @@ package com.example.android.booklistingapp;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,7 @@ public class BooksDataAdapter extends ArrayAdapter<BooksData>{
     // Add book publisher with getter getmPublisher()
         TextView publisherTextView = (TextView) listItemView.findViewById(R.id.text_publisher_book);
         publisherTextView.setText(currentBooksData.getmPublisher());
-
+    // return the populated listView to show in the UI
     return listItemView;
     }
 
