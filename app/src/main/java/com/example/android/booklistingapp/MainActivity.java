@@ -39,29 +39,15 @@ public class MainActivity extends AppCompatActivity {
     private BooksDataAdapter mAdapter;
     private ListView booksListView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Context context = this;
 
-     /*   protected void onSaveInstanceState (Bundle savedInstanceState){
-            // Save custom values into the bundle
-            savedInstanceState.putString(SEARCH_NAME, stringToSearch);
-            // Always call the superclass so it can save the view hierarchy state
-            super.onSaveInstanceState(savedInstanceState);
-        }
 
-        protected void onRestoreInstanceState (Bundle savedInstanceState){
-            // Always call the superclass so it can restore the view hierarchy
-            super.onRestoreInstanceState(savedInstanceState);
 
-            // Restore state members from saved instance
-            stringToSearch = savedInstanceState.getString(SEARCH_NAME);
-
-        }
-*/
+     
         // hide keyboard on the UI device then didn't needed
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -116,7 +102,32 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a new adapter instance that takes an empty list of book as input
         mAdapter = new BooksDataAdapter(this, new ArrayList<BooksData>());
+
+
     }
+
+    // Saving and restoring activity state
+    protected void onSaveInstanceState (Bundle savedInstanceState){
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+        // Save custom values into the bundle
+        savedInstanceState.putString(SEARCH_NAME, stringToSearch);
+
+    }
+
+    public void onRestoreInstanceState (Bundle savedInstanceState){
+        // Always call the superclass so it can restore the view hierarchy
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // Restore state search from saved instance
+        stringToSearch = savedInstanceState.getString(SEARCH_NAME);
+        // Start the AsyncTask to fetch the book's data
+        BookListAsyncTask task = new BookListAsyncTask();
+        task.execute(google_books_Api_url2);
+        booksListView.setAdapter(mAdapter);
+
+    }
+
 
     /*The three types used by an asynchronous task are the following:
     Params, the type of the parameters sent to the task upon execution.
@@ -131,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
         protected ArrayList<BooksData> doInBackground(String... Urls) {
 
             int urlLength = Urls.length;
-
             // Check an available url
             if (urlLength < 1 || Urls[0] == null) {
                 return null;
@@ -150,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             if (result != null && !result.isEmpty()) {
                 mEmptyStateTextView.setVisibility(View.GONE);
                 mAdapter.addAll(result);
+
             } else {
                 // Create a reference to the emptyView
 

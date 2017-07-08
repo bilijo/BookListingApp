@@ -7,26 +7,29 @@
 
         <TextView
             android:id="@+id/text_title_book"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/view_padding"
             android:layout_weight="1"
+            android:background="@color/row_title"
             android:text="@string/book_title"/>
 
         <TextView
             android:id="@+id/text_author_book"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/view_padding"
+            android:background="@color/colorAccent"
             android:text="@string/book_author" />
 
         <TextView
             android:id="@+id/text_publisher_book"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/view_padding"
+            android:background="@color/colorPrimaryDark"
             android:text="@string/book_author" />
     </LinearLayout>
 

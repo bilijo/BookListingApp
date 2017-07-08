@@ -2,6 +2,6 @@
 <resources>
     <dimen name="main_layout_margin">10dp</dimen>
     <dimen name="view_padding">10dp</dimen>
-    <dimen name="List_padding">30dp</dimen>
+    <dimen name="List_padding">80dp</dimen>
 
 </resources>
