@@ -42,14 +42,18 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/List_padding"
         android:visibility="visible"/>
 
  <!-- Empty view is only visible when the list has no items. -->
     <TextView
-        android:id="@+id/text_notfound"
+        android:id="@+id/text_emptyView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        style="@style/emptyText"
         android:text="@string/textView_not_found"
         android:visibility="gone"/>
 

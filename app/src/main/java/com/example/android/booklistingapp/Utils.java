@@ -152,15 +152,14 @@ public class Utils {
 
                     // Extract out the title, author, and publisher  values
                     String title = properties.getString("title");
-
-                    String authorName = properties.getString("authors");
+                    String authorName = properties.getString("authors").replaceAll("[\\[\\]]", "");
+                    authorName = authorName.replaceAll("\"", "");
                     String publisher = properties.getString("publisher");
 
                     // Create a new {@link BooksData} object
                     BooksData bookObject = new BooksData(title, authorName, publisher);
                     listOfBooks.add(bookObject);
                 }
-
 
             }
         } catch (JSONException e) {

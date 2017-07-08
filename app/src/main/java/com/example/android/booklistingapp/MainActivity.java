@@ -16,14 +16,19 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static android.widget.Toast.LENGTH_LONG;
 import static android.widget.Toast.LENGTH_SHORT;
 import static com.example.android.booklistingapp.R.id.listView_books;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Variable to use in the saving state method
+    static final String SEARCH_NAME = "string To Search";
+
+    public String stringToSearch = "";
+
     // url to perform search book by author name
     public String google_books_Api_url = "https://www.googleapis.com/books/v1/volumes?q=authors%20";
+
     // variable which will concatenate the url abobe with the author name given by the user
     String google_books_Api_url2;
 
@@ -34,31 +39,43 @@ public class MainActivity extends AppCompatActivity {
     private BooksDataAdapter mAdapter;
     private ListView booksListView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Context context = this;
 
+     /*   protected void onSaveInstanceState (Bundle savedInstanceState){
+            // Save custom values into the bundle
+            savedInstanceState.putString(SEARCH_NAME, stringToSearch);
+            // Always call the superclass so it can save the view hierarchy state
+            super.onSaveInstanceState(savedInstanceState);
+        }
 
+        protected void onRestoreInstanceState (Bundle savedInstanceState){
+            // Always call the superclass so it can restore the view hierarchy
+            super.onRestoreInstanceState(savedInstanceState);
+
+            // Restore state members from saved instance
+            stringToSearch = savedInstanceState.getString(SEARCH_NAME);
+
+        }
+*/
         // hide keyboard on the UI device then didn't needed
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-
         final EditText editTextView = (EditText) findViewById(R.id.editText_toSearch);
 
-    // Query the active network and determine if it has Internet connectivity.
+        // Query the active network and determine if it has Internet connectivity.
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
-        Toast.makeText(MainActivity.this, "Internet activeNetwork ", LENGTH_LONG).show();
 
 
         if (isConnected) {
-
-
         /* When the button search is pressed, set a click listener to launch the search
              only if there is a value in the EditText view
          */
@@ -72,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
                     } else {
                         // When EditText is not populated with chars replace blank space by %20 to perform search
-                        String stringToSearch = String.valueOf(editTextView.getText());
+                        stringToSearch = String.valueOf(editTextView.getText());
                         stringToSearch = stringToSearch.replace(" ", "%20");
                         // Link the author name given by the user to the google API url
                         google_books_Api_url2 = google_books_Api_url + stringToSearch;
@@ -80,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                         // Start the AsyncTask to fetch the book's data
                         BookListAsyncTask task = new BookListAsyncTask();
                         task.execute(google_books_Api_url2);
-                        
+
                         // Set the adapter on the {@link ListView}
                         // so the list can be diplayed in the user interface
                         booksListView.setAdapter(mAdapter);
@@ -89,7 +106,9 @@ public class MainActivity extends AppCompatActivity {
             });
         } else {
             Toast.makeText(MainActivity.this, "Internet isn't connected,\n then please connect and try again  ", LENGTH_SHORT).show();
-
+            mEmptyStateTextView = (TextView) findViewById(R.id.text_emptyView);
+            mEmptyStateTextView.setVisibility(View.VISIBLE);
+            mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
 
         // Create a reference to the {@link listView_books} in the layout
@@ -123,18 +142,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<BooksData> result) {
-        // Create a reference to the emptyView
-        mEmptyStateTextView = (TextView) findViewById(R.id.text_notfound);
-
             // Clear previous list
             mAdapter.clear();
-
+            mEmptyStateTextView = (TextView) findViewById(R.id.text_emptyView);
             // If there is a valid list of {@link BooksData}, then add them to the adapter's
             // data set. This will trigger the ListView to update.
             if (result != null && !result.isEmpty()) {
                 mEmptyStateTextView.setVisibility(View.GONE);
                 mAdapter.addAll(result);
             } else {
+                // Create a reference to the emptyView
+
                 mEmptyStateTextView.setVisibility(View.VISIBLE);
                 booksListView.setEmptyView(mEmptyStateTextView);
             }
