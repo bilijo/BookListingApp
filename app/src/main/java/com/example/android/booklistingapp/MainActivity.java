@@ -43,28 +43,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Context context = this;
+        final Context context = this;
 
         // hide keyboard on the UI device then didn't needed
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         final EditText editTextView = (EditText) findViewById(R.id.editText_toSearch);
 
-        // Query the active network and determine if it has Internet connectivity.
-        ConnectivityManager cm =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
 
 
-        if (isConnected) {
+
         /* When the button search is pressed, set a click listener to launch the search
              only if there is a value in the EditText view
          */
-            final Button searchButton = (Button) findViewById(R.id.button_search);
-            searchButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
+        final Button searchButton = (Button) findViewById(R.id.button_search);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+
+                if (checkNetworkConnection()) {
 
                     if (editTextView.getText().toString().isEmpty()) {
                         // Inform user when EditText is empty
@@ -85,29 +82,46 @@ public class MainActivity extends AppCompatActivity {
                         // so the list can be diplayed in the user interface
                         booksListView.setAdapter(mAdapter);
                     }
+                } else {
+
+                    mEmptyStateTextView = (TextView) findViewById(R.id.text_emptyView);
+                    mEmptyStateTextView.setVisibility(View.VISIBLE);
+                    mEmptyStateTextView.setText(R.string.no_internet_connection);
                 }
-            });
-        } else {
-            Toast.makeText(MainActivity.this, "Internet isn't connected,\n then please connect and try again  ", LENGTH_SHORT).show();
-            mEmptyStateTextView = (TextView) findViewById(R.id.text_emptyView);
-            mEmptyStateTextView.setVisibility(View.VISIBLE);
-            mEmptyStateTextView.setText(R.string.no_internet_connection);
-        }
+            }
+        });
+
 
         // Create a reference to the {@link listView_books} in the layout
         booksListView = (ListView) findViewById(listView_books);
         // Create a new adapter instance that takes an empty list of book as input
         mAdapter = new BooksDataAdapter(this, new ArrayList<BooksData>());
+
+
     }
 
+
+
+    private boolean checkNetworkConnection() {
+        // Query the active network and determine if it has Internet connectivity.
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
+    }
+
+
     // Saving and restoring activity state
-    protected void onSaveInstanceState (Bundle savedInstanceState){
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
         // Save custom values into the bundle
         savedInstanceState.putString(SEARCH_NAME, stringToSearch);
     }
-    public void onRestoreInstanceState (Bundle savedInstanceState){
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can restore the view hierarchy
         super.onRestoreInstanceState(savedInstanceState);
 
