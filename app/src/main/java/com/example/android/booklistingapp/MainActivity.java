@@ -45,9 +45,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Context context = this;
 
-
-
-     
         // hide keyboard on the UI device then didn't needed
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -99,11 +96,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a reference to the {@link listView_books} in the layout
         booksListView = (ListView) findViewById(listView_books);
-
         // Create a new adapter instance that takes an empty list of book as input
         mAdapter = new BooksDataAdapter(this, new ArrayList<BooksData>());
-
-
     }
 
     // Saving and restoring activity state
@@ -112,22 +106,21 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         // Save custom values into the bundle
         savedInstanceState.putString(SEARCH_NAME, stringToSearch);
-
     }
-
     public void onRestoreInstanceState (Bundle savedInstanceState){
         // Always call the superclass so it can restore the view hierarchy
         super.onRestoreInstanceState(savedInstanceState);
 
         // Restore state search from saved instance
         stringToSearch = savedInstanceState.getString(SEARCH_NAME);
+        // Link the author name given by the user to the google API url
+        google_books_Api_url2 = google_books_Api_url + stringToSearch;
+
         // Start the AsyncTask to fetch the book's data
         BookListAsyncTask task = new BookListAsyncTask();
         task.execute(google_books_Api_url2);
         booksListView.setAdapter(mAdapter);
-
     }
-
 
     /*The three types used by an asynchronous task are the following:
     Params, the type of the parameters sent to the task upon execution.
@@ -140,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
         // Here we can pass several variables like url of strings datas
         // these intput variables are stored into an Array called Urls
         protected ArrayList<BooksData> doInBackground(String... Urls) {
-
             int urlLength = Urls.length;
             // Check an available url
             if (urlLength < 1 || Urls[0] == null) {
@@ -163,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
 
             } else {
                 // Create a reference to the emptyView
-
                 mEmptyStateTextView.setVisibility(View.VISIBLE);
                 booksListView.setEmptyView(mEmptyStateTextView);
             }
