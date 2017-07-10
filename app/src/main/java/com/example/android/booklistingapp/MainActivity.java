@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                         booksListView.setAdapter(mAdapter);
                     }
                 } else {
-
+                    booksListView.setVisibility(View.INVISIBLE);
                     mEmptyStateTextView = (TextView) findViewById(R.id.text_emptyView);
                     mEmptyStateTextView.setVisibility(View.VISIBLE);
                     mEmptyStateTextView.setText(R.string.no_internet_connection);

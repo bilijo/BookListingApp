@@ -24,6 +24,11 @@ import java.util.List;
 
 public class Utils {
 
+    // Constant used to check items to be displayed : title, author and publisher
+    static String TITLE_KEY = "title";
+    static String AUTHOR_KEY = "author";
+    static String PUBLISHER_KEY = "publisher";
+
     /**
      * Tag for the log messages
      */
@@ -154,26 +159,26 @@ public class Utils {
 
                     String title = " ";
                     // Extract out the title, author, and publisher  values
-                    if (properties.has("title")){
-                        if ( !properties.getString("title").isEmpty()){
-                            title = properties.getString("title");
+                    if (properties.has(TITLE_KEY)){
+                        if ( !properties.getString(TITLE_KEY).isEmpty()){
+                            title = properties.getString(TITLE_KEY);
                         }
                     } else title = "N/A";
 
 
                     String authorName =  " ";
-                    if (properties.has("authors")){
-                        if (  !properties.getString("authors").isEmpty()){
-                            authorName = properties.getString("authors").replaceAll("[\\[\\]]", "");
+                    if (properties.has(AUTHOR_KEY)){
+                        if (  !properties.getString(AUTHOR_KEY).isEmpty()){
+                            authorName = properties.getString(AUTHOR_KEY).replaceAll("[\\[\\]]", "");
                             authorName = authorName.replaceAll("\"", "");
-                            Log.d(LOG_TAG,"authorName = " + authorName);
+
                         }
                     } else authorName = "N/A";
 
                     String publisher =  " ";
-                    if (properties.has("publisher")){
-                        if ( !properties.getString("publisher").isEmpty()){
-                            publisher = properties.getString("publisher");
+                    if (properties.has(PUBLISHER_KEY)){
+                        if ( !properties.getString(PUBLISHER_KEY).isEmpty()){
+                            publisher = properties.getString(PUBLISHER_KEY);
                         }
                     } else publisher = "N/A";
 

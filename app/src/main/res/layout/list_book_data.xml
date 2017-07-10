@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/view_padding"
+            android:layout_marginBottom="@dimen/publisher_row_margin"
             android:textSize="@dimen/data_text_size"
             android:background="@color/row_publisher"
             android:text="@string/book_author" />
