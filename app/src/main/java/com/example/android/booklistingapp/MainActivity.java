@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     public String stringToSearch = "";
 
     // url to perform search book by author name
-    public String google_books_Api_url = "https://www.googleapis.com/books/v1/volumes?q=authors%20";
+    //public String google_books_Api_url = "https://www.googleapis.com/books/v1/volumes?q=authors%20";
+    public String google_books_Api_url = "https://www.googleapis.com/books/v1/volumes?q=inauthor:" ;
 
     // variable which will concatenate the url abobe with the author name given by the user
     String google_books_Api_url2;
@@ -49,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         final EditText editTextView = (EditText) findViewById(R.id.editText_toSearch);
-
-
 
 
         /* When the button search is pressed, set a click listener to launch the search
@@ -97,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         // Create a new adapter instance that takes an empty list of book as input
         mAdapter = new BooksDataAdapter(this, new ArrayList<BooksData>());
 
-
     }
 
 
@@ -113,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // Saving and restoring activity state
+    /* ******* Saving and restoring activity state ******** */
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
@@ -133,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         // Start the AsyncTask to fetch the book's data
         BookListAsyncTask task = new BookListAsyncTask();
         task.execute(google_books_Api_url2);
+        Toast.makeText(MainActivity.this, google_books_Api_url2, LENGTH_SHORT).show();
         booksListView.setAdapter(mAdapter);
     }
 

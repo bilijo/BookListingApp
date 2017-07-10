@@ -95,6 +95,7 @@ public class Utils {
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the book api JSON results.", e);
+
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -141,8 +142,9 @@ public class Utils {
             JSONObject baseJsonResponse = new JSONObject(bookApiJSON);
             JSONArray itemsArray = baseJsonResponse.getJSONArray("items");
 
+
             // If there are results in the features array
-            if (itemsArray.length() > 0) {
+            if ((itemsArray.length()) > 0 && (baseJsonResponse.has("items"))) {
                 // Retrieve all items what are needed to be shown
                 for (int i = 0; i < itemsArray.length(); i++) {
 
@@ -150,18 +152,37 @@ public class Utils {
                     JSONObject firstFeature = itemsArray.getJSONObject(i);
                     JSONObject properties = firstFeature.getJSONObject("volumeInfo");
 
+                    String title = " ";
                     // Extract out the title, author, and publisher  values
-                    String title = properties.getString("title");
-                    String authorName = properties.getString("authors").replaceAll("[\\[\\]]", "");
-                    authorName = authorName.replaceAll("\"", "");
-                    String publisher = properties.getString("publisher");
+                    if (properties.has("title")){
+                        if ( !properties.getString("title").isEmpty()){
+                            title = properties.getString("title");
+                        }
+                    } else title = "N/A";
+
+
+                    String authorName =  " ";
+                    if (properties.has("authors")){
+                        if (  !properties.getString("authors").isEmpty()){
+                            authorName = properties.getString("authors").replaceAll("[\\[\\]]", "");
+                            authorName = authorName.replaceAll("\"", "");
+                            Log.d(LOG_TAG,"authorName = " + authorName);
+                        }
+                    } else authorName = "N/A";
+
+                    String publisher =  " ";
+                    if (properties.has("publisher")){
+                        if ( !properties.getString("publisher").isEmpty()){
+                            publisher = properties.getString("publisher");
+                        }
+                    } else publisher = "N/A";
 
                     // Create a new {@link BooksData} object
                     BooksData bookObject = new BooksData(title, authorName, publisher);
                     listOfBooks.add(bookObject);
                 }
-
             }
+
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing the book JSON results", e);
         }

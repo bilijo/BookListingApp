@@ -11,6 +11,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/view_padding"
             android:layout_weight="1"
+            android:textSize="@dimen/data_text_size"
             android:background="@color/row_title"
             android:text="@string/book_title"/>
 
@@ -20,7 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/view_padding"
-            android:background="@color/colorAccent"
+            android:textSize="@dimen/data_text_size"
+            android:background="@color/row_author"
             android:text="@string/book_author" />
 
         <TextView
@@ -29,7 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/view_padding"
-            android:background="@color/colorPrimaryDark"
+            android:textSize="@dimen/data_text_size"
+            android:background="@color/row_publisher"
             android:text="@string/book_author" />
     </LinearLayout>
 
