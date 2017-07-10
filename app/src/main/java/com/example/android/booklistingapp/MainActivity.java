@@ -57,15 +57,15 @@ public class MainActivity extends AppCompatActivity {
         final Button searchButton = (Button) findViewById(R.id.button_search);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                //clear any previous search
+                mAdapter.clear();
+                //Check connection
                 if (checkNetworkConnection()) {
-
                     if (editTextView.getText().toString().isEmpty()) {
                         // Inform user when EditText is empty
                         Toast.makeText(MainActivity.this, "EditText is empty ", LENGTH_SHORT).show();
-
                     } else {
-                        booksListView.setVisibility(View.VISIBLE);
+                        //booksListView.setVisibility(View.VISIBLE);
                         // When EditText is not populated with chars replace blank space by %20 to perform search
                         stringToSearch = String.valueOf(editTextView.getText());
                         stringToSearch = stringToSearch.replace(" ", "%20");
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         booksListView.setAdapter(mAdapter);
                     }
                 } else {
-                    booksListView.setVisibility(View.INVISIBLE);
+                    //booksListView.setVisibility(View.INVISIBLE);
                     mEmptyStateTextView = (TextView) findViewById(R.id.text_emptyView);
                     mEmptyStateTextView.setVisibility(View.VISIBLE);
                     mEmptyStateTextView.setText(R.string.no_internet_connection);
