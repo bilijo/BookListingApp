@@ -24,15 +24,14 @@ import java.util.List;
 
 public class Utils {
 
-    // Constant used to check items to be displayed : title, author and publisher
-    static String TITLE_KEY = "title";
-    static String AUTHOR_KEY = "author";
-    static String PUBLISHER_KEY = "publisher";
-
     /**
      * Tag for the log messages
      */
     public static final String LOG_TAG = Utils.class.getSimpleName();
+    // Constant used to check items to be displayed : title, author and publisher
+    static String TITLE_KEY = "title";
+    static String AUTHOR_KEY = "author";
+    static String PUBLISHER_KEY = "publisher";
 
     /**
      * Query the Books API dataset and return an {@link BooksData} object to represent a single book data.
@@ -159,25 +158,25 @@ public class Utils {
 
                     String title = " ";
                     // Extract out the title, author, and publisher  values
-                    if (properties.has(TITLE_KEY)){
-                        if ( !properties.getString(TITLE_KEY).isEmpty()){
+                    if (properties.has(TITLE_KEY)) {
+                        if (!properties.getString(TITLE_KEY).isEmpty()) {
                             title = properties.getString(TITLE_KEY);
                         }
                     } else title = "N/A";
 
 
-                    String authorName =  " ";
-                    if (properties.has(AUTHOR_KEY)){
-                        if (  !properties.getString(AUTHOR_KEY).isEmpty()){
+                    String authorName = " ";
+                    if (properties.has(AUTHOR_KEY)) {
+                        if (!properties.getString(AUTHOR_KEY).isEmpty()) {
                             authorName = properties.getString(AUTHOR_KEY).replaceAll("[\\[\\]]", "");
                             authorName = authorName.replaceAll("\"", "");
 
                         }
                     } else authorName = "N/A";
 
-                    String publisher =  " ";
-                    if (properties.has(PUBLISHER_KEY)){
-                        if ( !properties.getString(PUBLISHER_KEY).isEmpty()){
+                    String publisher = " ";
+                    if (properties.has(PUBLISHER_KEY)) {
+                        if (!properties.getString(PUBLISHER_KEY).isEmpty()) {
                             publisher = properties.getString(PUBLISHER_KEY);
                         }
                     } else publisher = "N/A";

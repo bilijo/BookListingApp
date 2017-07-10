@@ -51,14 +51,12 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText editTextView = (EditText) findViewById(R.id.editText_toSearch);
 
-
-        /* When the button search is pressed, set a click listener to launch the search
+         /* When the button search is pressed, set a click listener to launch the search
              only if there is a value in the EditText view
-         */
+        */
         final Button searchButton = (Button) findViewById(R.id.button_search);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
 
                 if (checkNetworkConnection()) {
 
@@ -67,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "EditText is empty ", LENGTH_SHORT).show();
 
                     } else {
+                        booksListView.setVisibility(View.VISIBLE);
                         // When EditText is not populated with chars replace blank space by %20 to perform search
                         stringToSearch = String.valueOf(editTextView.getText());
                         stringToSearch = stringToSearch.replace(" ", "%20");
@@ -90,15 +89,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         // Create a reference to the {@link listView_books} in the layout
         booksListView = (ListView) findViewById(listView_books);
         // Create a new adapter instance that takes an empty list of book as input
         mAdapter = new BooksDataAdapter(this, new ArrayList<BooksData>());
 
     }
-
-
 
     private boolean checkNetworkConnection() {
         // Query the active network and determine if it has Internet connectivity.
@@ -109,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 activeNetwork.isConnectedOrConnecting();
         return isConnected;
     }
-
 
     /* ******* Saving and restoring activity state ******** */
     protected void onSaveInstanceState(Bundle savedInstanceState) {

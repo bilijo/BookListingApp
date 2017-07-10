@@ -43,15 +43,15 @@ public class BooksDataAdapter extends ArrayAdapter<BooksData>{
         // Get the {@link BooksData} object located at this position in the list
         BooksData currentBooksData = getItem(position);
 
-    // Add book title with getter getmBookTitle()
+        // Add book title with getter getmBookTitle()
         TextView titleTexView = (TextView) listItemView.findViewById(R.id.text_title_book);
         titleTexView.setText(currentBooksData.getmBookTitle());
 
-    // Add book author with getter getmAuthor()
+        // Add book author with getter getmAuthor()
         TextView authorTextView = (TextView) listItemView.findViewById(R.id.text_author_book);
         authorTextView.setText(currentBooksData.getmAuthor());
 
-    // Add book publisher with getter getmPublisher()
+        // Add book publisher with getter getmPublisher()
         TextView publisherTextView = (TextView) listItemView.findViewById(R.id.text_publisher_book);
         publisherTextView.setText(currentBooksData.getmPublisher());
     // return the populated listView to show in the UI
