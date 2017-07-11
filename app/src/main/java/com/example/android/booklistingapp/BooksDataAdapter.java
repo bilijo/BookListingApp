@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by dam on 05.07.2017.
  */
 
-public class BooksDataAdapter extends ArrayAdapter<BooksData>{
+public class BooksDataAdapter extends ArrayAdapter<BooksData> {
 
     //Allows access to application-specific resources and classes, as well as up-calls
     private Context context;
@@ -35,7 +35,7 @@ public class BooksDataAdapter extends ArrayAdapter<BooksData>{
 
         // Check if the existing view is being reused, otherwise inflate the view
         View listItemView = convertView;
-        if(listItemView == null) {
+        if (listItemView == null) {
             // use the layout of the data items to be displayed
             listItemView = LayoutInflater.from(getContext()).inflate(
                     R.layout.list_book_data, parent, false);
@@ -54,10 +54,7 @@ public class BooksDataAdapter extends ArrayAdapter<BooksData>{
         // Add book publisher with getter getmPublisher()
         TextView publisherTextView = (TextView) listItemView.findViewById(R.id.text_publisher_book);
         publisherTextView.setText(currentBooksData.getmPublisher());
-    // return the populated listView to show in the UI
-    return listItemView;
+        // return the populated listView to show in the UI
+        return listItemView;
     }
-
-
-
 }

@@ -144,46 +144,48 @@ public class Utils {
 
         try {
             JSONObject baseJsonResponse = new JSONObject(bookApiJSON);
-            JSONArray itemsArray = baseJsonResponse.getJSONArray("items");
+            if (baseJsonResponse.has("items")) {
+
+                JSONArray itemsArray = baseJsonResponse.getJSONArray("items");
+
+                // If there are results in the features array
+                if ((itemsArray.length()) > 0 && (baseJsonResponse.has("items"))) {
+                    // Retrieve all items what are needed to be shown
+                    for (int i = 0; i < itemsArray.length(); i++) {
+
+                        // Extract out the first feature (which is a book info)
+                        JSONObject firstFeature = itemsArray.getJSONObject(i);
+                        JSONObject properties = firstFeature.getJSONObject("volumeInfo");
+
+                        String title = " ";
+                        // Extract out the title, author, and publisher  values
+                        if (properties.has(TITLE_KEY)) {
+                            if (!properties.getString(TITLE_KEY).isEmpty()) {
+                                title = properties.getString(TITLE_KEY);
+                            }
+                        } else title = "N/A";
 
 
-            // If there are results in the features array
-            if ((itemsArray.length()) > 0 && (baseJsonResponse.has("items"))) {
-                // Retrieve all items what are needed to be shown
-                for (int i = 0; i < itemsArray.length(); i++) {
+                        String authorName = " ";
+                        if (properties.has(AUTHOR_KEY)) {
+                            if (!properties.getString(AUTHOR_KEY).isEmpty()) {
+                                authorName = properties.getString(AUTHOR_KEY).replaceAll("[\\[\\]]", "");
+                                authorName = authorName.replaceAll("\"", "");
 
-                    // Extract out the first feature (which is a book info)
-                    JSONObject firstFeature = itemsArray.getJSONObject(i);
-                    JSONObject properties = firstFeature.getJSONObject("volumeInfo");
+                            }
+                        } else authorName = "N/A";
 
-                    String title = " ";
-                    // Extract out the title, author, and publisher  values
-                    if (properties.has(TITLE_KEY)) {
-                        if (!properties.getString(TITLE_KEY).isEmpty()) {
-                            title = properties.getString(TITLE_KEY);
-                        }
-                    } else title = "N/A";
+                        String publisher = " ";
+                        if (properties.has(PUBLISHER_KEY)) {
+                            if (!properties.getString(PUBLISHER_KEY).isEmpty()) {
+                                publisher = properties.getString(PUBLISHER_KEY);
+                            }
+                        } else publisher = "N/A";
 
-
-                    String authorName = " ";
-                    if (properties.has(AUTHOR_KEY)) {
-                        if (!properties.getString(AUTHOR_KEY).isEmpty()) {
-                            authorName = properties.getString(AUTHOR_KEY).replaceAll("[\\[\\]]", "");
-                            authorName = authorName.replaceAll("\"", "");
-
-                        }
-                    } else authorName = "N/A";
-
-                    String publisher = " ";
-                    if (properties.has(PUBLISHER_KEY)) {
-                        if (!properties.getString(PUBLISHER_KEY).isEmpty()) {
-                            publisher = properties.getString(PUBLISHER_KEY);
-                        }
-                    } else publisher = "N/A";
-
-                    // Create a new {@link BooksData} object
-                    BooksData bookObject = new BooksData(title, authorName, publisher);
-                    listOfBooks.add(bookObject);
+                        // Create a new {@link BooksData} object
+                        BooksData bookObject = new BooksData(title, authorName, publisher);
+                        listOfBooks.add(bookObject);
+                    }
                 }
             }
 
@@ -194,6 +196,4 @@ public class Utils {
         Log.d(LOG_TAG, "listOfBooks  " + listOfBooks);
         return listOfBooks;
     }
-
-
 }

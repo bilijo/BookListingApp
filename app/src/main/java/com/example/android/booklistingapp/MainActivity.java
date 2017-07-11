@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         booksListView = (ListView) findViewById(listView_books);
         // Create a new adapter instance that takes an empty list of book as input
         mAdapter = new BooksDataAdapter(this, new ArrayList<BooksData>());
-
     }
 
     private boolean checkNetworkConnection() {
@@ -155,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
             // Clear previous list
             mAdapter.clear();
             mEmptyStateTextView = (TextView) findViewById(R.id.text_emptyView);
+
             // If there is a valid list of {@link BooksData}, then add them to the adapter's
             // data set. This will trigger the ListView to update.
             if (result != null && !result.isEmpty()) {
@@ -166,8 +166,6 @@ public class MainActivity extends AppCompatActivity {
                 mEmptyStateTextView.setVisibility(View.VISIBLE);
                 booksListView.setEmptyView(mEmptyStateTextView);
             }
-
-
         }
     }
 }
